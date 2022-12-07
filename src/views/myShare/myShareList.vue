@@ -24,6 +24,9 @@
           {{ scope.row.name }}
         </template>
       </el-table-column>
+      <el-table-column label="来源"></el-table-column>
+      <el-table-column label="分享给"></el-table-column>
+      <el-table-column label="分享时间"></el-table-column>
       <el-table-column label="操作" width="180px">
         <template #default="scope">
           <file-function :file-detail="scope.row" list-type="shareList" />

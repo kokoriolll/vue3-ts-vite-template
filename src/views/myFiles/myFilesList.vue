@@ -4,10 +4,10 @@
     <el-col :span="8"><SearchInput @handlerSearch="searchFileList" /></el-col>
   </el-row>
   <el-row style="margin-top: 20px">
-    <el-button type="primary" round @click="openCreateFileVisible">
+    <el-button type="primary" round @click="openVisible('file')">
       <el-icon><Upload /></el-icon>新建知识
     </el-button>
-    <el-button type="primary" round>
+    <el-button type="primary" round @click="openVisible('folder')">
       <el-icon><Upload /></el-icon>新建文件夹
     </el-button>
     <transition name="fade">
@@ -36,7 +36,7 @@
           <el-icon style="vertical-align: -16%" :color="getIconColor(scope.row)">
             <component :is="getItemIcon(scope.row)" />
           </el-icon>
-          <span class="item-point">
+          <span class="item-point" @click="clickItem(scope.row)">
             {{ scope.row.name }}
           </span>
         </template>
@@ -63,7 +63,14 @@
       </el-table-column>
     </el-table>
   </el-row>
-  <create-file :visible="isCreateFileVisible" @updateVisible="updateCreateFileVisible"></create-file>
+  <create-file
+    :visible="isCreateFileVisible"
+    @updateVisible="(val) => updateCreateFileVisible(val, 'file')"
+  ></create-file>
+  <create-folder
+    :visible="isCreateFolderVisible"
+    @updateVisible="(val) => updateCreateFileVisible(val, 'folder')"
+  ></create-folder>
 </template>
 
 <script lang="ts" setup>
@@ -73,11 +80,12 @@ import { ElMessageBox } from 'element-plus';
 import { useI18n } from 'vue-i18n';
 import { MagicBreadcrumb, SearchInput, fileFunction } from '../../components/index.js';
 import CreateFile from './components/createFile.vue';
+import CreateFolder from './components/createFolder.vue';
 
 const { t } = useI18n();
 
 const isCreateFileVisible = ref<boolean>(false);
-// const isCreateFolderVisible = ref<boolean>(false);
+const isCreateFolderVisible = ref<boolean>(false);
 const multipleSelection = ref<any[]>([]);
 const tableData = ref([
   {
@@ -134,16 +142,28 @@ const deleteFiles = () => {
     });
 };
 
-const openCreateFileVisible = () => {
-  isCreateFileVisible.value = true;
+const openVisible = (type: string) => {
+  if (type === 'file') {
+    isCreateFileVisible.value = true;
+  } else {
+    isCreateFolderVisible.value = true;
+  }
 };
 
-const updateCreateFileVisible = (val: boolean) => {
-  isCreateFileVisible.value = val;
+const updateCreateFileVisible = (val: boolean, type: string) => {
+  if (type === 'file') {
+    isCreateFileVisible.value = val;
+  } else {
+    isCreateFolderVisible.value = val;
+  }
 };
 
 const searchFileList = (val: string) => {
   console.log(val);
+};
+
+const clickItem = (entity: any) => {
+  console.log(entity);
 };
 </script>
 
