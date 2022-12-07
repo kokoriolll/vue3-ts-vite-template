@@ -10,11 +10,12 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue';
+const emit = defineEmits(['handlerSearch']);
 
-const text = ref(undefined);
+const text = ref<string | undefined>(undefined);
 
 const searchFile = () => {
-  console.log(text.value);
+  emit('handlerSearch', text.value);
 };
 </script>
 

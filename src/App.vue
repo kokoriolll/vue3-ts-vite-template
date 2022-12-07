@@ -1,5 +1,4 @@
 <script setup lang="ts">
-// 配置element中文
 import zhCn from 'element-plus/es/locale/lang/zh-cn';
 </script>
 
@@ -9,4 +8,13 @@ import zhCn from 'element-plus/es/locale/lang/zh-cn';
   </el-config-provider>
 </template>
 
-<style scoped></style>
+<style>
+.fade-enter-active,
+.list-leave-active {
+  transition: all 0.5s ease;
+}
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+</style>

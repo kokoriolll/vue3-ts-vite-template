@@ -91,7 +91,8 @@ export const basicRoutes: any[] = [
         meta: {
           title: '我的分享',
           icon: 'Share'
-        }
+        },
+        component: () => import('../views/myShare/myShareList.vue')
       },
       {
         path: '/contact',

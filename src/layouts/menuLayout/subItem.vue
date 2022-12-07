@@ -4,7 +4,7 @@
       <app-link v-if="onlyOneChild.meta" :to="resolvePath(onlyOneChild.path)">
         <el-menu-item :index="resolvePath(onlyOneChild.path)">
           <el-icon :size="20">
-            <component :is="onlyOneChild?.meta.icon"></component>
+            <component :is="onlyOneChild.meta.icon"></component>
           </el-icon>
           <template #title>{{ onlyOneChild.meta && onlyOneChild.meta.title }}</template>
         </el-menu-item>
@@ -12,7 +12,7 @@
     </template>
     <el-sub-menu v-else :index="resolvePath(item.path)" popper-append-to-body>
       <template #title>
-        <el-icon :size="20"><component :is="item.meta?.icon"></component></el-icon>
+        <el-icon :size="20"><component :is="item.meta.icon"></component></el-icon>
         <app-link :to="item.path">
           <span>{{ item.meta && item.meta.title }}</span>
         </app-link>
@@ -38,9 +38,9 @@ const props = defineProps({
   }
 });
 
-const onlyOneChild = ref(null);
-const hasOneShowingChild = (children = [], parent) => {
-  const showingChildren = children.filter((item) => {
+const onlyOneChild = ref<any>(null);
+const hasOneShowingChild = (children = [], parent: any) => {
+  const showingChildren = children.filter((item: any) => {
     // 过滤掉需要隐藏的菜单
     if (item.hidden) {
       return false;

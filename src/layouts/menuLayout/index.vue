@@ -30,7 +30,6 @@ const activeMenu = computed(() => {
 
 const { children: tempMenus } = basicRoutes.find((item) => item.path === '/');
 const menus = reactive(tempMenus);
-console.log(menus);
 
 const handleOpen = (key: string, keyPath: string[]) => {
   console.log(key, keyPath);
