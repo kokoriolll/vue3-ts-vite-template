@@ -74,15 +74,26 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed } from 'vue';
+import { ref, computed, watch } from 'vue';
+import { useRouter } from 'vue-router';
 import dayjs from 'dayjs';
 import { ElMessageBox } from 'element-plus';
 import { useI18n } from 'vue-i18n';
 import { MagicBreadcrumb, SearchInput, fileFunction } from '../../components/index.js';
 import CreateFile from './components/createFile.vue';
 import CreateFolder from './components/createFolder.vue';
+const router = useRouter();
 
 const { t } = useI18n();
+
+watch(
+  () => router.currentRoute.value.path,
+  (val) => {
+    console.log(router);
+    console.log(val);
+  },
+  { immediate: true }
+);
 
 const isCreateFileVisible = ref<boolean>(false);
 const isCreateFolderVisible = ref<boolean>(false);

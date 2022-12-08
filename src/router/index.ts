@@ -48,7 +48,8 @@ export const basicRoutes: any[] = [
             meta: {
               title: '图片',
               icon: 'Picture'
-            }
+            },
+            component: () => import('../views/myFiles/myFilesList.vue')
           },
           {
             path: '/myFiles/videos',
@@ -56,7 +57,8 @@ export const basicRoutes: any[] = [
             meta: {
               title: '视频',
               icon: 'Film'
-            }
+            },
+            component: () => import('../views/myFiles/myFilesList.vue')
           },
           {
             path: '/myFiles/doc',
@@ -64,7 +66,8 @@ export const basicRoutes: any[] = [
             meta: {
               title: '文档',
               icon: 'Document'
-            }
+            },
+            component: () => import('../views/myFiles/myFilesList.vue')
           },
           {
             path: '/myFiles/other',
@@ -72,7 +75,8 @@ export const basicRoutes: any[] = [
             meta: {
               title: '其他',
               icon: 'MoreFilled'
-            }
+            },
+            component: () => import('../views/myFiles/myFilesList.vue')
           }
         ]
       },
