@@ -1,6 +1,6 @@
 <template>
   <el-row :gutter="0" justify="space-between">
-    <el-col :span="16"><MagicBreadcrumb /></el-col>
+    <el-col :span="16"><MagicBreadcrumb :data-source="[{ title: '回收站', name: 'recycle' }]" /></el-col>
     <el-col :span="8"></el-col>
   </el-row>
   <el-row style="margin-top: 20px">

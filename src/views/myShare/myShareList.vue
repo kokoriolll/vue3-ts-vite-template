@@ -1,13 +1,14 @@
 <template>
   <el-row :gutter="0" justify="space-between">
     <el-col :span="16">
-      <transition name="fade">
-        <el-button v-if="isFunctionBtnShow" type="danger" round @click="batchUnShare">
-          <el-icon><RefreshLeft /></el-icon>批量取消分享
-        </el-button>
-      </transition>
+      <magic-breadcrumb :data-source="[{ title: '我的分享', name: 'share' }]" />
     </el-col>
     <el-col :span="8"><SearchInput @handlerSearch="searchFileList" /></el-col>
+  </el-row>
+  <el-row style="margin-top: 20px">
+    <el-button :disabled="!isFunctionBtnShow" type="danger" round @click="batchUnShare">
+      <el-icon><RefreshLeft /></el-icon>批量取消分享
+    </el-button>
   </el-row>
   <el-row style="margin-top: 20px">
     <el-table
@@ -40,7 +41,7 @@
 import { ref, computed } from 'vue';
 import { ElMessageBox } from 'element-plus';
 import { useI18n } from 'vue-i18n';
-import { SearchInput, fileFunction } from '../../components/index.js';
+import { SearchInput, fileFunction, MagicBreadcrumb } from '../../components/index.js';
 import FileFunction from '../../components/fileFunction/index.vue';
 const { t } = useI18n();
 

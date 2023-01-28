@@ -1,13 +1,13 @@
 <template>
   <el-row :gutter="0" justify="space-between">
-    <el-col :span="16"><MagicBreadcrumb /></el-col>
+    <el-col :span="16"><MagicBreadcrumb :data-source="breadcrumbList" /></el-col>
     <el-col :span="8"><SearchInput @handlerSearch="searchFileList" /></el-col>
   </el-row>
   <el-row style="margin-top: 20px">
     <el-button type="primary" round @click="openVisible('file')">
       <el-icon><Upload /></el-icon>新建知识
     </el-button>
-    <el-button type="primary" round @click="openVisible('folder')">
+    <el-button v-if="isNewFolderShow" type="primary" round @click="openVisible('folder')">
       <el-icon><Upload /></el-icon>新建文件夹
     </el-button>
     <transition name="fade">
@@ -74,7 +74,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed, watch } from 'vue';
+import { ref, computed, watch, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import dayjs from 'dayjs';
 import { ElMessageBox } from 'element-plus';
@@ -83,14 +83,17 @@ import { MagicBreadcrumb, SearchInput, fileFunction } from '../../components/ind
 import CreateFile from './components/createFile.vue';
 import CreateFolder from './components/createFolder.vue';
 const router = useRouter();
-
 const { t } = useI18n();
 
 watch(
   () => router.currentRoute.value.path,
-  (val) => {
-    console.log(router);
-    console.log(val);
+  (newValue) => {
+    if (resetPage) {
+      resetPage(router.currentRoute.value.meta);
+    }
+    if (resetBreadcrumbList) {
+      resetBreadcrumbList(router.currentRoute.value.meta);
+    }
   },
   { immediate: true }
 );
@@ -116,6 +119,16 @@ const tableData = ref([
     type: 'file'
   }
 ]);
+const breadcrumbList = ref<any[]>([]);
+
+onMounted(() => {
+  resetPage(router.currentRoute.value.meta);
+  resetBreadcrumbList(router.currentRoute.value.meta);
+});
+
+const isNewFolderShow = computed(() => {
+  return router.currentRoute.value.meta.name === 'all';
+});
 
 const isFunctionBtnShow = computed(() => multipleSelection.value.length);
 
@@ -175,6 +188,19 @@ const searchFileList = (val: string) => {
 
 const clickItem = (entity: any) => {
   console.log(entity);
+};
+
+var resetPage = (type: any) => {
+  if (type.parent === 'myFiles') {
+    console.log(type);
+  }
+};
+
+var resetBreadcrumbList = (type: any) => {
+  if (type.parent === 'myFiles') {
+    breadcrumbList.value = [];
+    breadcrumbList.value.push(type);
+  }
 };
 </script>
 
