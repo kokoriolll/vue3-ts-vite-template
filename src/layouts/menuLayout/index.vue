@@ -16,8 +16,12 @@ import { ref, reactive, computed } from 'vue';
 import { basicRoutes } from '../../router';
 import { useRoute } from 'vue-router';
 import subItem from './subItem.vue';
+import { useEnumStore } from '../../store/modules/enum';
 
 const route = useRoute();
+const enumStore = useEnumStore();
+
+enumStore.getFileTypesEnum();
 
 const activeMenu = computed(() => {
   const { meta, path } = route;

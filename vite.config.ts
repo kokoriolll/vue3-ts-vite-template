@@ -40,11 +40,11 @@ export default defineConfig({
     cors: true,
     // 代理跨域（模拟示例）
     proxy: {
-      // "/api": {
-      //   target: "", // easymock
-      //   changeOrigin: true,
-      //   rewrite: path => path.replace(/^\/api/, "")
-      // }
+      '/api': {
+        target: 'http://192.168.100.95:9997',
+        changeOrigin: true,
+        ws: true
+      }
     }
   }
 });
