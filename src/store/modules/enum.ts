@@ -11,7 +11,9 @@ export const useEnumStore = defineStore({
     async getFileTypesEnum() {
       const data = await getFileTypeEnum();
       this.documentTypeEnum = data.data;
-      console.log(this.documentTypeEnum);
     }
+  },
+  persist: {
+    enabled: true
   }
 });
