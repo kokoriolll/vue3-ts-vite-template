@@ -22,10 +22,19 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { ElMessageBox } from 'element-plus';
 const { t } = useI18n();
+import axios from '@/utils/axios';
+
+onMounted(() => {
+  axios({
+    url: '/api/getUserInfo'
+  }).then((resp: any) => {
+    console.log(resp);
+  });
+});
 
 const tableData = ref([
   {
