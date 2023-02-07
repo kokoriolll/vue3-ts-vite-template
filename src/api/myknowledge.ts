@@ -17,3 +17,11 @@ export function batchDeleteKnowledge(data: any[]) {
     data: [...data]
   });
 }
+
+export function getFile(data?: any) {
+  return request({
+    url: '/api/knowledges',
+    method: 'GET',
+    params: { ...data }
+  });
+}

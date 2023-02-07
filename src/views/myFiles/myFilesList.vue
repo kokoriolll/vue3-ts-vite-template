@@ -8,7 +8,7 @@
       <el-button type="primary" round @click="openVisible('file')">
         <el-icon><Upload /></el-icon>新建知识
       </el-button>
-      <el-button v-if="isNewFolderShow" type="primary" round @click="openVisible('folder')">
+      <el-button v-if="isNewFolderShow" type="primary" round @click="openVisible('folder', 'create')">
         <el-icon><Upload /></el-icon>新建文件夹
       </el-button>
       <transition name="fade">
@@ -59,7 +59,7 @@
         </el-table-column>
         <el-table-column label="操作" width="180px">
           <template #default="scope">
-            <fileFunction :file-detail="scope.row" list-type="fileList" @viewDetail="showViewDetail" />
+            <fileFunction :file-detail="scope.row" list-type="fileList" @buttonClick="folderClick" />
           </template>
         </el-table-column>
       </el-table>
@@ -87,19 +87,21 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive, computed, watch, onMounted, toRaw } from 'vue';
+import { ref, reactive, computed, watch, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
-import dayjs from 'dayjs';
-import { ElMessageBox, ElMessage } from 'element-plus';
 import { useI18n } from 'vue-i18n';
+import { ElMessageBox, ElMessage } from 'element-plus';
+import { useEnumStore } from '@/store/modules/enum';
+import dayjs from 'dayjs';
 import { MagicBreadcrumb, SearchInput, fileFunction } from '../../components/index.js';
-import CreateFile from './components/createFile.vue';
-import CreateFolder from './components/createFolder.vue';
-import knowledgeDetail from './components/knowledgeDetail.vue';
-import { getKnowledge, batchDeleteKnowledge } from '@/api/myknowledge';
+import CreateFile from './components/fileForm.vue';
+import CreateFolder from './components/folderForm.vue';
 import KnowledgeDetail from './components/knowledgeDetail.vue';
+import { getKnowledge, batchDeleteKnowledge, getFile } from '@/api/myknowledge';
+
 const router = useRouter();
 const { t } = useI18n();
+const enumStore = useEnumStore();
 
 watch(
   () => router.currentRoute.value.path,
@@ -120,6 +122,12 @@ const searchParams = ref({
   pageNumber: 0,
   pageSize: 10,
   search_title: ''
+});
+const searchFileParams = ref({
+  pageNumber: 0,
+  pageSize: 10,
+  search_title: '',
+  search_type: undefined
 });
 const isCreateFileVisible = ref<boolean>(false);
 const isCreateFolderVisible = ref<boolean>(false);
@@ -175,12 +183,10 @@ const deleteFiles = () => {
     });
     batchDeleteKnowledge(data)
       .then((resp: any) => {
-        console.log(resp);
         getKnowledgeList();
         ElMessage.success(t('tips.deleteSuccess'));
       })
       .catch((e: any) => {
-        console.log(e);
         ElMessage.error(t('tips.deleteFail'));
       })
       .finally(() => {
@@ -189,7 +195,7 @@ const deleteFiles = () => {
   });
 };
 
-const openVisible = (type: string) => {
+const openVisible = (type: string, state?: string) => {
   if (type === 'file') {
     isCreateFileVisible.value = true;
   } else {
@@ -223,20 +229,6 @@ const clickItem = (entity: any) => {
   console.log(entity);
 };
 
-var resetPage = (type: any) => {
-  if (type.name === 'all') {
-    getKnowledgeList();
-  } else {
-  }
-};
-
-var resetBreadcrumbList = (type: any) => {
-  if (type.parent === 'myFiles') {
-    breadcrumbList.value = [];
-    breadcrumbList.value.push(type);
-  }
-};
-
 const getKnowledgeList = () => {
   loading.value = true;
   getKnowledge(searchParams.value)
@@ -252,16 +244,63 @@ const getKnowledgeList = () => {
     });
 };
 
-const getFileList = () => {};
+const getFileList = () => {
+  loading.value = true;
+  getFile(searchFileParams.value)
+    .then((resp: any) => {
+      total.value = resp.data.totalElements;
+      tableData.value = resp.data.content ? resp.data.content : [];
+    })
+    .catch((e: any) => {
+      ElMessage.error(t('tips.loadFail'));
+    })
+    .finally(() => {
+      loading.value = false;
+    });
+};
 
 const paginationChange = (value: number) => {
   searchParams.value.pageNumber = value - 1;
   getKnowledgeList();
 };
 
-const showViewDetail = (entity: any) => {
-  tempKnowledge.value = entity;
-  isKnowledgeDetailVisible.value = true;
+const folderClick = (type: string, entity: any) => {
+  switch (type) {
+    case 'edit':
+      tempKnowledge.value = entity;
+      openVisible('folder', 'edit');
+      break;
+    case 'detail':
+      tempKnowledge.value = entity;
+      isKnowledgeDetailVisible.value = true;
+      break;
+    case 'view':
+      console.log(type);
+      break;
+    case 'download':
+      console.log(type);
+      break;
+  }
+};
+
+var resetPage = (type: any) => {
+  if (type.name === 'all') {
+    getKnowledgeList();
+  } else {
+    enumStore.documentTypeEnum.forEach((item: any) => {
+      if (item.name === type.title) {
+        searchFileParams.value.search_type = item.value;
+        getFileList();
+      }
+    });
+  }
+};
+
+var resetBreadcrumbList = (type: any) => {
+  if (type.parent === 'myFiles') {
+    breadcrumbList.value = [];
+    breadcrumbList.value.push(type);
+  }
 };
 </script>
 
@@ -279,11 +318,5 @@ export default {
 
 .item-point:hover {
   color: #409eff;
-}
-
-.content {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
 }
 </style>

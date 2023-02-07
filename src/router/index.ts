@@ -81,7 +81,7 @@ export const basicRoutes: any[] = [
             path: '/myFiles/other',
             name: 'myOtherFiles',
             meta: {
-              title: '其他',
+              title: '其它',
               icon: 'MoreFilled',
               parent: 'myFiles',
               name: 'other'

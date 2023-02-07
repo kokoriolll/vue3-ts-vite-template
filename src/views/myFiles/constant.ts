@@ -3,5 +3,5 @@ export const typeList: object = {
   pic: '图片',
   videos: '视频',
   doc: '文档',
-  other: '其他'
+  other: '其它'
 };

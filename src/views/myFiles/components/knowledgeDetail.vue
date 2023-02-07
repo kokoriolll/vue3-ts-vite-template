@@ -57,7 +57,6 @@ const getKnowledgeType = (entity: any) => {
   if (entity.isFolder) {
     return '文件夹';
   } else {
-
     return '文件';
   }
 };

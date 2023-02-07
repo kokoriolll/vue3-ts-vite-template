@@ -9,12 +9,9 @@ import zhCn from 'element-plus/es/locale/lang/zh-cn';
 </template>
 
 <style>
-.fade-enter-active,
-.list-leave-active {
-  transition: all 0.5s ease;
-}
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
+.content {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 </style>
