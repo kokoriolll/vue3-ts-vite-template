@@ -1,4 +1,5 @@
 import { defineConfig } from 'vite';
+// @ts-ignore
 import path from 'path';
 import vue from '@vitejs/plugin-vue';
 import AutoImport from 'unplugin-auto-import/vite';
@@ -6,6 +7,7 @@ import Components from 'unplugin-vue-components/vite';
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers';
 
 function resolve(dir) {
+  // @ts-ignore
   return path.join(__dirname, '.', dir);
 }
 
@@ -14,6 +16,19 @@ export default defineConfig({
   plugins: [
     vue(),
     AutoImport({
+      dts: true,
+      vueTemplate: true,
+      imports: [
+        'vue',
+        'vue-router',
+        'pinia',
+        {
+          'dayjs': [
+            // default imports
+            ['default', 'dayjs'],
+          ],
+        }
+      ],
       resolvers: [ElementPlusResolver()]
     }),
     Components({
@@ -23,7 +38,8 @@ export default defineConfig({
   // 配置别名
   resolve: {
     alias: {
-      '@': resolve('src'),
+      // @ts-ignore
+      '@': path.join(__dirname, './src'),
       static: resolve('public/static'),
       'vue-i18n': 'vue-i18n/dist/vue-i18n.cjs.js'
     },

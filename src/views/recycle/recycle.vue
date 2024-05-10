@@ -1,19 +1,43 @@
 <template>
-  <el-row :gutter="0" justify="space-between">
-    <el-col :span="16"><MagicBreadcrumb :data-source="[{ title: '回收站', name: 'recycle' }]" /></el-col>
-    <el-col :span="8"></el-col>
+  <el-row
+    :gutter="0"
+    justify="space-between"
+  >
+    <el-col :span="16">
+      <MagicBreadcrumb :data-source="[{ title: '回收站', name: 'recycle' }]" />
+    </el-col>
+    <el-col :span="8" />
   </el-row>
   <el-row style="margin-top: 20px">
-    <el-table ref="recycleListTable" :data="tableData" row-key="id" stripe style="width: 100%">
+    <el-table
+      ref="recycleListTable"
+      :data="tableData"
+      row-key="id"
+      stripe
+      style="width: 100%"
+    >
       <el-table-column label="名称">
         <template #default="scope">
           {{ scope.row.name }}
         </template>
       </el-table-column>
-      <el-table-column label="操作" width="180px">
+      <el-table-column
+        label="操作"
+        width="180px"
+      >
         <template #default="scope">
-          <el-tooltip effect="dark" content="撤销删除" placement="top">
-            <el-button type="primary" icon="RefreshLeft" text circle @click="recoverFile(scope.row)"> </el-button>
+          <el-tooltip
+            effect="dark"
+            content="撤销删除"
+            placement="top"
+          >
+            <el-button
+              type="primary"
+              icon="RefreshLeft"
+              text
+              circle
+              @click="recoverFile(scope.row)"
+            />
           </el-tooltip>
         </template>
       </el-table-column>

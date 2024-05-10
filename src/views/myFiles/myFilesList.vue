@@ -1,23 +1,51 @@
 <template>
-  <section v-loading="loading" class="content">
-    <el-row :gutter="0" justify="space-between">
-      <el-col :span="16"><MagicBreadcrumb :data-source="breadcrumbList" /></el-col>
-      <el-col :span="8"><SearchInput @handlerSearch="searchFileList" /></el-col>
+  <section
+    v-loading="loading"
+    class="content"
+  >
+    <el-row
+      :gutter="0"
+      justify="space-between"
+    >
+      <el-col :span="16">
+        <MagicBreadcrumb :data-source="breadcrumbList" />
+      </el-col>
+      <el-col :span="8">
+        <SearchInput @handler-search="searchFileList" />
+      </el-col>
     </el-row>
     <el-row style="margin-top: 20px">
-      <el-button type="primary" round @click="openVisible('file')">
+      <el-button
+        type="primary"
+        round
+        @click="openVisible('file')"
+      >
         <el-icon><Upload /></el-icon>新建知识
       </el-button>
-      <el-button v-if="isNewFolderShow" type="primary" round @click="openVisible('folder', 'create')">
+      <el-button
+        v-if="isNewFolderShow"
+        type="primary"
+        round
+        @click="openVisible('folder', 'create')"
+      >
         <el-icon><Upload /></el-icon>新建文件夹
       </el-button>
       <transition name="fade">
-        <el-button v-if="isFunctionBtnShow" type="primary" round>
+        <el-button
+          v-if="isFunctionBtnShow"
+          type="primary"
+          round
+        >
           <el-icon><Share /></el-icon>分享
         </el-button>
       </transition>
       <transition name="fade">
-        <el-button v-if="isFunctionBtnShow" type="danger" round @click="deleteFiles">
+        <el-button
+          v-if="isFunctionBtnShow"
+          type="danger"
+          round
+          @click="deleteFiles"
+        >
           <el-icon><Delete /></el-icon>删除
         </el-button>
       </transition>
@@ -31,13 +59,22 @@
         style="width: 100%"
         @selection-change="handleSelectionChange"
       >
-        <el-table-column type="selection" width="55" />
+        <el-table-column
+          type="selection"
+          width="55"
+        />
         <el-table-column label="名称">
           <template #default="scope">
-            <el-icon style="vertical-align: -16%" :color="getIconColor(scope.row)">
+            <el-icon
+              style="vertical-align: -16%"
+              :color="getIconColor(scope.row)"
+            >
               <component :is="getItemIcon(scope.row)" />
             </el-icon>
-            <span class="item-point" @click="clickItem(scope.row)">
+            <span
+              class="item-point"
+              @click="clickItem(scope.row)"
+            >
               {{ scope.row.title }}
             </span>
           </template>
@@ -57,9 +94,16 @@
             {{ dayjs(scope.row.createTime).format('YYYY-MM-DD') }}
           </template>
         </el-table-column>
-        <el-table-column label="操作" width="180px">
+        <el-table-column
+          label="操作"
+          width="180px"
+        >
           <template #default="scope">
-            <fileFunction :file-detail="scope.row" list-type="fileList" @buttonClick="folderClick" />
+            <fileFunction
+              :file-detail="scope.row"
+              list-type="fileList"
+              @button-click="folderClick"
+            />
           </template>
         </el-table-column>
       </el-table>
@@ -74,33 +118,26 @@
       />
     </el-row>
   </section>
-  <create-file :visible="isCreateFileVisible" @updateVisible="(val) => updateVisibleState(val, 'file')"></create-file>
+  <create-file
+    :visible="isCreateFileVisible"
+    @update-visible="(val) => updateVisibleState(val, 'file')"
+  />
   <create-folder
     :visible="isCreateFolderVisible"
-    @updateVisible="(val) => updateVisibleState(val, 'folder')"
-  ></create-folder>
+    @update-visible="(val) => updateVisibleState(val, 'folder')"
+  />
   <knowledge-detail
     :visible="isKnowledgeDetailVisible"
     :file-detail="tempKnowledge"
-    @updateVisible="(val) => updateVisibleState(val, 'detail')"
-  ></knowledge-detail>
+    @update-visible="(val) => updateVisibleState(val, 'detail')"
+  />
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive, computed, watch, onMounted } from 'vue';
-import { useRouter } from 'vue-router';
-import { useI18n } from 'vue-i18n';
-import { ElMessageBox, ElMessage } from 'element-plus';
 import { useEnumStore } from '@/store/modules/enum';
-import dayjs from 'dayjs';
-import { MagicBreadcrumb, SearchInput, fileFunction } from '../../components/index.js';
-import CreateFile from './components/fileForm.vue';
-import CreateFolder from './components/folderForm.vue';
-import KnowledgeDetail from './components/knowledgeDetail.vue';
 import { getKnowledge, batchDeleteKnowledge, getFile } from '@/api/myknowledge';
 
 const router = useRouter();
-const { t } = useI18n();
 const enumStore = useEnumStore();
 
 watch(
@@ -147,7 +184,7 @@ const isNewFolderShow = computed(() => {
 });
 
 const isFunctionBtnShow = computed(() => multipleSelection.value.length);
-
+ 
 const handleSelectionChange = (val: []) => {
   multipleSelection.value = val;
 };
@@ -169,9 +206,9 @@ const getItemIcon = (entity: any) => {
 };
 
 const deleteFiles = () => {
-  ElMessageBox.confirm(t('tips.deleteText'), t('tips.deleteTitle'), {
-    confirmButtonText: t('button.ok'),
-    cancelButtonText: t('button.cancel'),
+  ElMessageBox.confirm(useI18n.global.t('tips.deleteText'), useI18n.global.t('tips.deleteTitle'), {
+    confirmButtonText: useI18n.global.t('button.ok'),
+    cancelButtonText: useI18n.global.t('button.cancel'),
     type: 'error'
   }).then(() => {
     loading.value = true;
@@ -184,10 +221,10 @@ const deleteFiles = () => {
     batchDeleteKnowledge(data)
       .then((resp: any) => {
         getKnowledgeList();
-        ElMessage.success(t('tips.deleteSuccess'));
+        ElMessage.success(useI18n.global.t('tips.deleteSuccess'));
       })
       .catch((e: any) => {
-        ElMessage.error(t('tips.deleteFail'));
+        ElMessage.error(useI18n.global.t('tips.deleteFail'));
       })
       .finally(() => {
         loading.value = false;
@@ -237,7 +274,7 @@ const getKnowledgeList = () => {
       tableData.value = resp.data.content ? resp.data.content : [];
     })
     .catch((e: any) => {
-      ElMessage.error(t('tips.loadFail'));
+      ElMessage.error(useI18n.global.t('tips.loadFail'));
     })
     .finally(() => {
       loading.value = false;
@@ -252,7 +289,7 @@ const getFileList = () => {
       tableData.value = resp.data.content ? resp.data.content : [];
     })
     .catch((e: any) => {
-      ElMessage.error(t('tips.loadFail'));
+      ElMessage.error(useI18n.global.t('tips.loadFail'));
     })
     .finally(() => {
       loading.value = false;
