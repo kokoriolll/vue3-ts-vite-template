@@ -1,8 +1,18 @@
 <template>
   <el-container class="layout-container">
     <el-aside :width="'200px'">
-      <el-menu class="layout-menu" :default-active="activeMenu" @open="handleOpen" @close="handleClose">
-        <subItem v-for="item in menus" :key="item.name" :item="item" :base-path="item.path" />
+      <el-menu
+        class="layout-menu"
+        :default-active="activeMenu"
+        @open="handleOpen"
+        @close="handleClose"
+      >
+        <subItem
+          v-for="item in menus"
+          :key="item.name"
+          :item="item"
+          :base-path="item.path"
+        />
       </el-menu>
     </el-aside>
     <el-main class="layout-main">
@@ -12,11 +22,10 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive, computed } from 'vue';
-import { basicRoutes } from '../../router';
+import { basicRoutes } from '@/router';
 import { useRoute } from 'vue-router';
 import subItem from './subItem.vue';
-import { useEnumStore } from '../../store/modules/enum';
+import { useEnumStore } from '@/store/modules/enum';
 
 const route = useRoute();
 const enumStore = useEnumStore();

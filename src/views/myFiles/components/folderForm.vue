@@ -1,25 +1,42 @@
 <template>
-  <el-dialog v-model="dialogVisible" class="dialog-box" :before-close="beforeClose" :title="title" width="45%">
-    <el-form ref="ruleFormRef" :model="form" :rules="rules" label-width="120px" status-icon>
-      <el-form-item label="文件夹名称" prop="name">
+  <el-dialog
+    v-model="dialogVisible"
+    class="dialog-box"
+    :before-close="beforeClose"
+    :title="title"
+    width="45%"
+  >
+    <el-form
+      ref="ruleFormRef"
+      :model="form"
+      :rules="rules"
+      label-width="120px"
+      status-icon
+    >
+      <el-form-item
+        label="文件夹名称"
+        prop="name"
+      >
         <el-input v-model="form.name" />
       </el-form-item>
     </el-form>
     <template #footer>
       <span class="dialog-footer">
         <el-button @click="closeDialog">取消</el-button>
-        <el-button type="primary" @click="submitForm(ruleFormRef)">保存</el-button>
+        <el-button
+          type="primary"
+          @click="submitForm(ruleFormRef)"
+        >保存</el-button>
       </span>
     </template>
   </el-dialog>
 </template>
 <script lang="ts" setup>
-import { ref, reactive, defineProps, watch, computed, onBeforeUnmount } from 'vue';
 import type { FormInstance, FormRules } from 'element-plus';
 const ruleFormRef = ref<FormInstance>();
 const dialogVisible = ref<boolean>(false);
 const emit = defineEmits(['updateVisible']);
-import Mitt from '../../../utils/eventBus';
+import Mitt from '@/utils/eventBus';
 
 const title = ref<string>('新建文件夹');
 const form = reactive({

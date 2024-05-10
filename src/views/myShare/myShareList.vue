@@ -1,13 +1,26 @@
 <template>
-  <section v-loading="loading" class="content">
-    <el-row :gutter="0" justify="space-between">
+  <section
+    v-loading="loading"
+    class="content"
+  >
+    <el-row
+      :gutter="0"
+      justify="space-between"
+    >
       <el-col :span="16">
         <magic-breadcrumb :data-source="[{ title: '我的分享', name: 'share' }]" />
       </el-col>
-      <el-col :span="8"><SearchInput @handlerSearch="searchFileList" /></el-col>
+      <el-col :span="8">
+        <SearchInput @handler-search="searchFileList" />
+      </el-col>
     </el-row>
     <el-row style="margin-top: 20px">
-      <el-button :disabled="!isFunctionBtnShow" type="danger" round @click="batchUnShare">
+      <el-button
+        :disabled="!isFunctionBtnShow"
+        type="danger"
+        round
+        @click="batchUnShare"
+      >
         <el-icon><RefreshLeft /></el-icon>批量取消分享
       </el-button>
     </el-row>
@@ -20,18 +33,27 @@
         style="width: 100%"
         @selection-change="handleSelectionChange"
       >
-        <el-table-column type="selection" width="55" />
+        <el-table-column
+          type="selection"
+          width="55"
+        />
         <el-table-column label="名称">
           <template #default="scope">
             {{ scope.row.name }}
           </template>
         </el-table-column>
-        <el-table-column label="来源"></el-table-column>
-        <el-table-column label="分享给"></el-table-column>
-        <el-table-column label="分享时间"></el-table-column>
-        <el-table-column label="操作" width="180px">
+        <el-table-column label="来源" />
+        <el-table-column label="分享给" />
+        <el-table-column label="分享时间" />
+        <el-table-column
+          label="操作"
+          width="180px"
+        >
           <template #default="scope">
-            <file-function :file-detail="scope.row" list-type="shareList" />
+            <file-function
+              :file-detail="scope.row"
+              list-type="shareList"
+            />
           </template>
         </el-table-column>
       </el-table>
@@ -49,7 +71,6 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed, onMounted } from 'vue';
 import { ElMessageBox, ElMessage } from 'element-plus';
 import { useI18n } from 'vue-i18n';
 import { SearchInput, fileFunction, MagicBreadcrumb } from '../../components/index.js';

@@ -1,12 +1,14 @@
 <template>
-  <component :is="componentType" v-bind="linkProps(basePath)">
+  <component
+    :is="componentType"
+    v-bind="linkProps(basePath)"
+  >
     <slot />
   </component>
 </template>
 
 <script lang="ts" setup>
-import { ref, defineProps, computed } from 'vue';
-import { isExternal } from '../../utils/validate';
+import { isExternal } from '@/utils/validate';
 
 const props = defineProps({
   basePath: {

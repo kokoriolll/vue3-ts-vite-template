@@ -1,32 +1,47 @@
 <template>
   <template v-if="!item.hidden">
     <template v-if="hasOneShowingChild(item.children, item)">
-      <app-link v-if="onlyOneChild.meta" :to="resolvePath(onlyOneChild.path)">
+      <app-link
+        v-if="onlyOneChild.meta"
+        :to="resolvePath(onlyOneChild.path)"
+      >
         <el-menu-item :index="resolvePath(onlyOneChild.path)">
           <el-icon :size="20">
-            <component :is="onlyOneChild.meta.icon"></component>
+            <component :is="onlyOneChild.meta.icon" />
           </el-icon>
-          <template #title>{{ onlyOneChild.meta && onlyOneChild.meta.title }}</template>
+          <template #title>
+            {{ onlyOneChild.meta && onlyOneChild.meta.title }}
+          </template>
         </el-menu-item>
       </app-link>
     </template>
-    <el-sub-menu v-else :index="resolvePath(item.path)" popper-append-to-body>
+    <el-sub-menu
+      v-else
+      :index="resolvePath(item.path)"
+      popper-append-to-body
+    >
       <template #title>
-        <el-icon :size="20"><component :is="item.meta.icon"></component></el-icon>
+        <el-icon :size="20">
+          <component :is="item.meta.icon" />
+        </el-icon>
         <app-link :to="item.path">
           <span>{{ item.meta && item.meta.title }}</span>
         </app-link>
       </template>
-      <sub-item v-for="child in item.children" :key="child.path" :item="child" :base-path="resolvePath(child.path)" />
+      <sub-item
+        v-for="child in item.children"
+        :key="child.path"
+        :item="child"
+        :base-path="resolvePath(child.path)"
+      />
     </el-sub-menu>
   </template>
 </template>
 
 <script lang="ts" setup>
-import { isExternal } from '../../utils/validate';
+import { isExternal } from '@/utils/validate';
 import AppLink from './Link.vue';
 import path from 'path-browserify';
-import { ref, computed } from 'vue';
 const props = defineProps({
   item: {
     type: Object,

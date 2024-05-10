@@ -1,14 +1,45 @@
 <template>
-  <el-dialog v-model="dialogVisible" :before-close="beforeClose" title="新建知识" width="45%">
-    <el-form ref="ruleFormRef" :model="form" :rules="rules" label-width="120px" status-icon>
-      <el-form-item label="知识名称" prop="name">
-        <el-input v-model="form.name" placeholder="请输入知识名称" />
+  <el-dialog
+    v-model="dialogVisible"
+    :before-close="beforeClose"
+    title="新建知识"
+    width="45%"
+  >
+    <el-form
+      ref="ruleFormRef"
+      :model="form"
+      :rules="rules"
+      label-width="120px"
+      status-icon
+    >
+      <el-form-item
+        label="知识名称"
+        prop="name"
+      >
+        <el-input
+          v-model="form.name"
+          placeholder="请输入知识名称"
+        />
       </el-form-item>
-      <el-form-item label="来源" prop="resource">
-        <el-input v-model="form.resource" placeholder="请输入来源" />
+      <el-form-item
+        label="来源"
+        prop="resource"
+      >
+        <el-input
+          v-model="form.resource"
+          placeholder="请输入来源"
+        />
       </el-form-item>
-      <el-form-item label="文件类型" prop="type">
-        <el-select v-model="form.type" class="m-2" placeholder="请选择文件类型" style="width: 100%">
+      <el-form-item
+        label="文件类型"
+        prop="type"
+      >
+        <el-select
+          v-model="form.type"
+          class="m-2"
+          placeholder="请选择文件类型"
+          style="width: 100%"
+        >
           <el-option
             v-for="item in enumStore.documentTypeEnum"
             :key="item.value"
@@ -17,7 +48,10 @@
           />
         </el-select>
       </el-form-item>
-      <el-form-item label="上传附件" prop="file">
+      <el-form-item
+        label="上传附件"
+        prop="file"
+      >
         <el-upload
           v-model:file-list="fileList"
           class="upload-demo"
@@ -27,9 +61,13 @@
           :before-remove="beforeRemove"
           :limit="1"
         >
-          <el-button type="primary">Click to upload</el-button>
+          <el-button type="primary">
+            Click to upload
+          </el-button>
           <template #tip>
-            <div class="el-upload__tip">jpg/png files with a size less than 500KB.</div>
+            <div class="el-upload__tip">
+              jpg/png files with a size less than 500KB.
+            </div>
           </template>
         </el-upload>
       </el-form-item>
@@ -37,13 +75,15 @@
     <template #footer>
       <span class="dialog-footer">
         <el-button @click="closeDialog">取消</el-button>
-        <el-button type="primary" @click="submitForm(ruleFormRef)">保存</el-button>
+        <el-button
+          type="primary"
+          @click="submitForm(ruleFormRef)"
+        >保存</el-button>
       </span>
     </template>
   </el-dialog>
 </template>
 <script lang="ts" setup>
-import { ref, reactive, defineProps, watch } from 'vue';
 import { ElMessageBox } from 'element-plus';
 import { useEnumStore } from '@/store/modules/enum';
 import type { FormInstance, FormRules, UploadProps, UploadInstance, UploadUserFile } from 'element-plus';

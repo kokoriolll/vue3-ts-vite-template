@@ -1,21 +1,68 @@
 <template>
-  <el-tooltip v-if="listType === 'fileList'" effect="dark" content="编辑" placement="top" :hide-after="10">
-    <el-button type="primary" text circle icon="Edit" @click="editBus"> </el-button>
+  <el-tooltip
+    v-if="listType === 'fileList'"
+    effect="dark"
+    content="编辑"
+    placement="top"
+    :hide-after="10"
+  >
+    <el-button
+      type="primary"
+      text
+      circle
+      icon="Edit"
+      @click="editBus"
+    />
   </el-tooltip>
-  <el-tooltip effect="dark" content="详情" placement="top" :hide-after="10">
-    <el-button type="primary" text circle icon="Tickets" @click="emitBus('detail')"> </el-button>
+  <el-tooltip
+    effect="dark"
+    content="详情"
+    placement="top"
+    :hide-after="10"
+  >
+    <el-button
+      type="primary"
+      text
+      circle
+      icon="Tickets"
+      @click="emitBus('detail')"
+    />
   </el-tooltip>
-  <el-tooltip v-if="isButtonShow" effect="dark" content="预览" placement="top" :hide-after="10">
-    <el-button type="primary" text circle icon="View" @click="emitBus('view')"> </el-button>
+  <el-tooltip
+    v-if="isButtonShow"
+    effect="dark"
+    content="预览"
+    placement="top"
+    :hide-after="10"
+  >
+    <el-button
+      type="primary"
+      text
+      circle
+      icon="View"
+      @click="emitBus('view')"
+    />
   </el-tooltip>
-  <el-tooltip v-if="isButtonShow" effect="dark" content="下载" placement="top" :hide-after="10">
-    <el-button type="primary" text circle icon="Download" @click="emitBus('download')"> </el-button>
+  <el-tooltip
+    v-if="isButtonShow"
+    effect="dark"
+    content="下载"
+    placement="top"
+    :hide-after="10"
+  >
+    <el-button
+      type="primary"
+      text
+      circle
+      icon="Download"
+      @click="emitBus('download')"
+    />
   </el-tooltip>
 </template>
 
 <script lang="ts" setup>
 import { defineProps, computed } from 'vue';
-import Mitt from '../../utils/eventBus';
+import Mitt from '@/utils/eventBus';
 
 const emit = defineEmits(['buttonClick']);
 

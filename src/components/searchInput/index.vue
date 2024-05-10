@@ -1,5 +1,10 @@
 <template>
-  <el-input v-model="text" placeholder="请输入文件名" :maxlength="50" clearable>
+  <el-input
+    v-model="text"
+    placeholder="请输入文件名"
+    :maxlength="50"
+    clearable
+  >
     <template #append>
       <el-button @click="searchFile">
         <el-icon><Search /></el-icon>

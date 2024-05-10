@@ -1,9 +1,7 @@
 import { createRouter, createWebHashHistory } from 'vue-router';
 import type { App } from 'vue';
 import menuLayout from '../layouts/menuLayout/index.vue';
-import routerView from '../layouts/routerView.vue';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 interface routers {
   path: string;
   name: string;
